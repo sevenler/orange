@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# encoding=utf8
 from tornado.web import RequestHandler
 
 class BaseMiddleware(object):

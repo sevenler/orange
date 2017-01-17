@@ -1,5 +1,7 @@
+#!/usr/bin/env python
+# encoding=utf8
 import tornado
-from core.logic import User, Context
+from core.logic import User
 from api.middleware import get_all_middleware
 
 
@@ -15,11 +17,6 @@ class BaseApiView(tornado.web.RequestHandler):
             return user_obj_list[0]
         else:
             return None
-
-    def get_current_context(self):
-        user_obj = self.get_current_user()
-        context = Context(user_obj.id)
-        return context
 
     def prepare(self):
         for middleware in get_all_middleware():

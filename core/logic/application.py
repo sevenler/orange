@@ -1,10 +1,12 @@
+#!/usr/bin/env python
+# encoding=utf8
 from base import BaseObject
 from core.models import session
 from core.models import Application as ApplicationModel
-from core.models import Student as StudentModel
 from const import ApplicationStatus
 from exception import ErrorStatusException
-from string import String
+from glob import GlobalString
+from student import Student
 
 
 class Application(BaseObject):
@@ -38,21 +40,21 @@ class Application(BaseObject):
 
     def claim(self, provider_id):
         if self.status != ApplicationStatus.CLAIMED:
-            e_m = String.find('error_application_status_to_claim')
+            e_m = GlobalString.find('error_application_status_to_claim')
             raise ErrorStatusException(e_m)
         else:
             self._update_application(status=ApplicationStatus.CLAIMED)
 
     def confirm(self, user_id):
         if self.status != ApplicationStatus.CLAIMED:
-            e_m = String.find('error_application_status_to_confirm')
+            e_m = GlobalString.find('error_application_status_to_confirm')
             raise ErrorStatusException(e_m)
         else:
             self._update_application(status=ApplicationStatus.CONFIRMED)
 
     def send_offer(self, user_id):
         if self.status != ApplicationStatus.CONFIRMED:
-            e_m = String.find('error_application_status_to_send_offer')
+            e_m = GlobalString.find('error_application_status_to_send_offer')
             raise ErrorStatusException(e_m)
         else:
             self._update_application(status=ApplicationStatus.SENT)
@@ -79,12 +81,12 @@ class Application(BaseObject):
             self._model.update(**args)
 
     @classmethod
-    def create(self, **kwargs):
+    def create(cls, **kwargs):
         student_dict = {
             'name': kwargs['student_name'],
             'age': kwargs['age'],
         }
-        student = Student.create(**student_dict)
+        student_obj = Student.create(**student_dict)
 
         application_dict = {
             'name': kwargs['name'],
@@ -93,9 +95,10 @@ class Application(BaseObject):
         application_model = ApplicationModel(application_dict)
         session.add(application_model)
         session.commit()
+        return cls(application_model.id, model=application_model, student_obj=student_obj)
 
     @classmethod
-    def filter(self, **kwargs, offset=0, count=30):
+    def filter(cls, offset=0, count=30, **kwargs):
         app_model_list = ApplicationModel.filter_by(session=session, **kwargs).all()
         app_object_list = []
         start = offset * count

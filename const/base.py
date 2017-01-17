@@ -1,4 +1,5 @@
-
+#!/usr/bin/env python
+# encoding=utf8
 class BaseConst(object):
     def find(self, value):
         return self._schema[key]

@@ -1,3 +1,4 @@
+
 class BaseObject(object):
     def __init__(self, pk):
         self._pk = pk

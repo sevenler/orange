@@ -1,3 +1,5 @@
+
+
 from base import BaseObject
 from core.models import session
 from core.models import User as UserModel
@@ -78,7 +80,7 @@ class User(BaseObject):
         return check == from_db
 
     @classmethod
-    def filter(self, **kwargs, offset=0, count=30):
+    def filter(cls, offset=0, count=30, **kwargs):
         user_model_list = UserModel.filter_by(session=session, **kwargs).all()
         user_object_list = []
         for item in user_model_list:

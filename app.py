@@ -8,7 +8,8 @@ import tornado.httpserver
 import tornado.ioloop
 import tornado.options
 import tornado.web
-from urls import handlers
+from api.urls import handlers as api_handlers
+from www.urls import handlers as www_handlers
 from tornado.options import define, options
 from config import ADDRESS_PORT
 
@@ -22,6 +23,7 @@ class Application(tornado.web.Application):
             debug=True,
         )
 
+        handlers = api_handlers + www_handlers
         tornado.web.Application.__init__(self, handlers, **settings)
 
 def main():
