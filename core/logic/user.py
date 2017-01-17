@@ -78,7 +78,7 @@ class User(BaseObject):
         return check == from_db
 
     @classmethod
-    def filter(cls, **kwargs):
+    def filter(self, **kwargs, offset=0, count=30):
         user_model_list = UserModel.filter_by(session=session, **kwargs).all()
         user_object_list = []
         for item in user_model_list:

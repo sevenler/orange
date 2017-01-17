@@ -2,12 +2,12 @@ from base import BaseModel
 from sqlalchemy import (
     Column,
     String,
-    Integer,
+    Text,
 )
 
 
-class Student(BaseModel):
-    __tablename__ = 'student'
+class Major(BaseModel):
+    __tablename__ = 'major'
 
     name = Column(String(200))
-    age = Column(Integer)
+    description = Column(Text)

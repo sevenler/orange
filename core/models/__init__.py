@@ -1,10 +1,9 @@
 from core.models.base import install_model
-from core.models.user import *
-from core.models.answer import *
-from core.models.contact import *
-from core.models.question import *
-from core.models.question_prestorage import *
-from core.models.tag import *
+from core.models.application import Application
+from core.models.major import Major
+from core.models.provider import Provider
+from core.models.student import Student
+from core.models.user import User
 from config import DEBUG, DB_PATH
 
 from sqlalchemy import create_engine
